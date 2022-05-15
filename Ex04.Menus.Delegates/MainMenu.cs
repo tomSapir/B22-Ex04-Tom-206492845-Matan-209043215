@@ -11,24 +11,124 @@ namespace Ex04.Menus.Delegates
 
         public void Show()
         {
-            bool stopLoop = false;
+            int choiceAsInt;
             MenuItem currMenuItem = null;
 
-            while (stopLoop == false)
+            while (true)
             {
                 if (currMenuItem == null)
                 {
-                    Console.WriteLine("***** Main Menu *****");
+                    printCurrentMenu("Main Menu", m_MenuItems, true);
+                    choiceAsInt = readUserChoice(m_MenuItems.Count);
+
+                    if (choiceAsInt == 0)
+                    {
+                        break;
+                    }
+                    else if (m_MenuItems[choiceAsInt - 1].SubMenuItem == null)
+                    {
+                        // he is action
+                    }
+                    else
+                    {
+                        currMenuItem = m_MenuItems[choiceAsInt - 1];
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("***** {0} *****", currMenuItem.Text);
+                    printCurrentMenu(currMenuItem.Text, currMenuItem.SubMenuItem, false);
+                    choiceAsInt = readUserChoice(currMenuItem.SubMenuItem.Count);
+
+                    if (choiceAsInt == 0)
+                    {
+                        currMenuItem = currMenuItem.ItemAboveMeInTheHierarchy;
+                    }
+                    else if (m_MenuItems[choiceAsInt - 1].SubMenuItem == null)
+                    {
+                        // he is action
+                    }
+                    else
+                    {
+                        currMenuItem = m_MenuItems[choiceAsInt - 1];
+                    }
                 }
-
-
-
             }
         }
 
+        private bool checkIfChoiceIsValid(string i_Choice, int i_AmountOfOptions)
+        {
+            bool isValid = true;
+            int choiceAsInt;
+
+            if (int.TryParse(i_Choice, out choiceAsInt) == false)
+            {
+                isValid = false;
+            }
+            else
+            {
+                if(choiceAsInt < 0 || choiceAsInt > i_AmountOfOptions)
+                {
+                    isValid = false;
+                }
+            }
+
+            return isValid;
+        }
+
+        private void printCurrentMenu(string i_Title, List<MenuItem> i_MenuItems, bool i_IsMainMenu)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append("******** ").Append(i_Title).AppendLine(" ********");
+            stringBuilder.AppendLine("----------------------------------------");
+            stringBuilder.Append("Enter your request (1 to ").Append(i_MenuItems.Count).Append(" or press '0' to ");
+            if (i_IsMainMenu)
+            {
+                stringBuilder.AppendLine("Exit).");
+            }
+            else
+            {
+                stringBuilder.AppendLine("Back).");
+            }
+
+            for (int i = 1; i <= i_MenuItems.Count; i++)
+            {
+                stringBuilder.Append(i.ToString()).Append(". ").AppendLine(i_MenuItems[i - 1].Text);
+            }
+
+            if (i_IsMainMenu)
+            {
+                stringBuilder.Append("0. Exit");
+            }
+            else
+            {
+                stringBuilder.Append("0. Back");
+            }
+
+            Console.WriteLine(stringBuilder);
+        }
+
+        private int readUserChoice(int i_AmountOfOptions)
+        {
+            bool isValid = false;
+            string choiceAsString = string.Empty;
+            int choiceAsInt = 0;
+
+            while (isValid == false)
+            {
+                choiceAsString = Console.ReadLine();
+                if (checkIfChoiceIsValid(choiceAsString, i_AmountOfOptions) == false)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid input.");
+                }
+                else
+                {
+                    int.TryParse(choiceAsString, out choiceAsInt);
+                    isValid = true;
+                }
+            }
+
+            return choiceAsInt;
+        }
     }
 }
