@@ -12,14 +12,14 @@ namespace Ex04.Menus.Test
         {
             MainMenu mainMenu = new MainMenu();
 
-            mainMenu.MenuItems.Add(new MenuItem("Show Date/Time", null));
-            mainMenu.MenuItems.Add(new MenuItem("Version and Spaces", null));
+            mainMenu.SubMenuItem.Add(new MenuItem("Show Date/Time", mainMenu));
+            mainMenu.SubMenuItem.Add(new MenuItem("Version and Spaces", mainMenu));
 
-            mainMenu.MenuItems[0].SubMenuItem.Add(new MenuItem("Show Time", mainMenu.MenuItems[0]));
-            mainMenu.MenuItems[0].SubMenuItem.Add(new MenuItem("Show Date", mainMenu.MenuItems[0]));
+            mainMenu.SubMenuItem[0].SubMenuItem.Add(new MenuItem("Show Time", mainMenu.SubMenuItem[0]));
+            mainMenu.SubMenuItem[0].SubMenuItem.Add(new MenuItem("Show Date", mainMenu.SubMenuItem[0]));
 
-            mainMenu.MenuItems[1].SubMenuItem.Add(new MenuItem("Count Spaces", mainMenu.MenuItems[1]));
-            mainMenu.MenuItems[1].SubMenuItem.Add(new MenuItem("Show Version", mainMenu.MenuItems[1]));
+            mainMenu.SubMenuItem[1].SubMenuItem.Add(new MenuItem("Count Spaces", mainMenu.SubMenuItem[1]));
+            mainMenu.SubMenuItem[1].SubMenuItem.Add(new MenuItem("Show Version", mainMenu.SubMenuItem[1]));
 
             Utils utils = new Utils(mainMenu);
 

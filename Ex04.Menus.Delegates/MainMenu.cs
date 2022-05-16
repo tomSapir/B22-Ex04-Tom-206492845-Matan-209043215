@@ -5,65 +5,43 @@ using System.Text;
 
 namespace Ex04.Menus.Delegates
 {
-    public class MainMenu
+    public class MainMenu : MenuItem
     {
-        private List<MenuItem> m_MenuItems;
 
-        public MainMenu()
+        public MainMenu() : base("Main Menu", null)
         {
-            m_MenuItems = new List<MenuItem>();
         }
 
-        public List<MenuItem> MenuItems
-        {
-            get
-            {
-                return m_MenuItems;
-            }
-        }
 
         public void Show()
         {
             int choiceAsInt;
-            MenuItem currMenuItem = null;
+            MenuItem currMenuItem = this;
+            bool isMainMenu = true;
 
             while (true)
             {
-                if (currMenuItem == null)
-                {
-                    printCurrentMenu("Main Menu", m_MenuItems, true);
-                    choiceAsInt = readUserChoice(m_MenuItems.Count);
+                isMainMenu = currMenuItem.ItemAboveMeInTheHierarchy == null;
 
-                    if (choiceAsInt == 0)
-                    {
-                        break;
-                    }
-                    else if (m_MenuItems[choiceAsInt - 1].SubMenuItem.Count == 0)
-                    {
-                        m_MenuItems[choiceAsInt - 1].MethodWhenChosen();
-                    }
-                    else
-                    {
-                        currMenuItem = m_MenuItems[choiceAsInt - 1];
-                    }
+                printCurrentMenu(currMenuItem.Text, currMenuItem.SubMenuItem, isMainMenu);
+                choiceAsInt = readUserChoice(currMenuItem.SubMenuItem.Count);
+
+                if (choiceAsInt == 0 && isMainMenu)
+                {
+                    break;
+                }
+                else if (choiceAsInt == 0 && isMainMenu == false)
+                {
+                    currMenuItem = currMenuItem.ItemAboveMeInTheHierarchy;
+                }
+                else if (currMenuItem.SubMenuItem[choiceAsInt - 1].SubMenuItem.Count == 0)
+                {
+                    Console.Clear();
+                    currMenuItem.SubMenuItem[choiceAsInt - 1].MethodWhenChosen();
                 }
                 else
                 {
-                    printCurrentMenu(currMenuItem.Text, currMenuItem.SubMenuItem, false);
-                    choiceAsInt = readUserChoice(currMenuItem.SubMenuItem.Count);
-
-                    if (choiceAsInt == 0)
-                    {
-                        currMenuItem = currMenuItem.ItemAboveMeInTheHierarchy;
-                    }
-                    else if (currMenuItem.SubMenuItem[choiceAsInt - 1].SubMenuItem.Count == 0)
-                    {
-                        currMenuItem.SubMenuItem[choiceAsInt - 1].MethodWhenChosen();
-                    }
-                    else
-                    {
-                        currMenuItem = currMenuItem.SubMenuItem[choiceAsInt - 1];
-                    }
+                    currMenuItem = currMenuItem.SubMenuItem[choiceAsInt - 1];
                 }
             }
         }

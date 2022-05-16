@@ -9,9 +9,9 @@ namespace Ex04.Menus.Delegates
 
     public class MenuItem
     {
-        private List<MenuItem> m_SubMenuItems;
-        private MenuItem m_ItemAboveMeInTheHierarchy;
-        private string m_Text;
+        protected List<MenuItem> m_SubMenuItems;
+        protected MenuItem m_ItemAboveMeInTheHierarchy;
+        protected string m_Text;
 
         public event Action<MenuItem> m_ItemChosen;
 

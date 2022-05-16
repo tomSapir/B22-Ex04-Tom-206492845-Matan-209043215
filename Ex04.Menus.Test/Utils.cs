@@ -9,11 +9,11 @@ namespace Ex04.Menus.Delegates
     {
         public Utils(MainMenu i_UtilsMainMenu)
         {
-            i_UtilsMainMenu.MenuItems[0].SubMenuItem[0].m_ItemChosen += ShowTime;
-            i_UtilsMainMenu.MenuItems[0].SubMenuItem[1].m_ItemChosen += ShowDate;
+            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[0].m_ItemChosen += ShowTime;
+            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[1].m_ItemChosen += ShowDate;
 
-            i_UtilsMainMenu.MenuItems[1].SubMenuItem[0].m_ItemChosen += CountSpaces;
-            i_UtilsMainMenu.MenuItems[1].SubMenuItem[1].m_ItemChosen += ShowVersion;
+            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[0].m_ItemChosen += CountSpaces;
+            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[1].m_ItemChosen += ShowVersion;
         }
 
         public void ShowTime()
