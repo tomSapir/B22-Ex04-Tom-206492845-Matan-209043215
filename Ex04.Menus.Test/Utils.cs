@@ -9,21 +9,20 @@ namespace Ex04.Menus.Delegates
     {
         public Utils(MainMenu i_UtilsMainMenu)
         {
-            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[0].m_ItemChosen += ShowTime;
-            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[1].m_ItemChosen += ShowDate;
-
-            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[0].m_ItemChosen += CountSpaces;
-            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[1].m_ItemChosen += ShowVersion;
+            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[0].m_MenuItemChooseInvoker += ShowTime;
+            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[1].m_MenuItemChooseInvoker += ShowDate;
+            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[0].m_MenuItemChooseInvoker += CountSpaces;
+            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[1].m_MenuItemChooseInvoker += ShowVersion;
         }
 
         public void ShowTime()
         {
-            Console.WriteLine(DateTime.Now.ToString("HH:mm:ss"));
+            Console.WriteLine(string.Format("The time is: {0}{1}", DateTime.Now.ToString("HH:mm:ss"), Environment.NewLine));
         }
 
         public void ShowDate()
         {
-            Console.WriteLine(DateTime.Now.ToShortDateString());
+            Console.WriteLine(string.Format("The data is: {0}{1}", DateTime.Now.ToShortDateString(), Environment.NewLine));
         }
 
         public void CountSpaces()

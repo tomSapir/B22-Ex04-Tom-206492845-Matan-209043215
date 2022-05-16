@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Ex04.Menus.Delegates
 {
     public class MainMenu : MenuItem
     {
-
         public MainMenu() : base("Main Menu", null)
         {
         }
-
 
         public void Show()
         {
@@ -23,7 +20,7 @@ namespace Ex04.Menus.Delegates
             {
                 isMainMenu = currMenuItem.ItemAboveMeInTheHierarchy == null;
 
-                printCurrentMenu(currMenuItem.Text, currMenuItem.SubMenuItem, isMainMenu);
+                printCurrentMenu(currMenuItem.Title, currMenuItem.SubMenuItem, isMainMenu);
                 choiceAsInt = readUserChoice(currMenuItem.SubMenuItem.Count);
 
                 if (choiceAsInt == 0 && isMainMenu)
@@ -37,7 +34,7 @@ namespace Ex04.Menus.Delegates
                 else if (currMenuItem.SubMenuItem[choiceAsInt - 1].SubMenuItem.Count == 0)
                 {
                     Console.Clear();
-                    currMenuItem.SubMenuItem[choiceAsInt - 1].MethodWhenChosen();
+                    currMenuItem.SubMenuItem[choiceAsInt - 1].MethodForWhenMenuItemIsChosen();
                 }
                 else
                 {
@@ -75,7 +72,7 @@ namespace Ex04.Menus.Delegates
 
             for (int i = 1; i <= i_MenuItems.Count; i++)
             {
-                stringBuilder.Append(i.ToString()).Append(" -> ").AppendLine(i_MenuItems[i - 1].Text);
+                stringBuilder.Append(i.ToString()).Append(" -> ").AppendLine(i_MenuItems[i - 1].Title);
             }
 
             if (i_IsMainMenu)

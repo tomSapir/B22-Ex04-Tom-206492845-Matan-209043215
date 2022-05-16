@@ -5,21 +5,21 @@ using System.Text;
 
 namespace Ex04.Menus.Delegates
 {
-    public delegate void Action<T>();
+    public delegate void MenuItemChooseInvoker();
 
     public class MenuItem
     {
         protected List<MenuItem> m_SubMenuItems;
         protected MenuItem m_ItemAboveMeInTheHierarchy;
-        protected string m_Text;
+        protected readonly string r_Title;
 
-        public event Action<MenuItem> m_ItemChosen;
+        public event MenuItemChooseInvoker m_MenuItemChooseInvoker;
 
-        public MenuItem(string i_Text, MenuItem i_ItemAboveMeInTheHierarchy)
+        public MenuItem(string i_Title, MenuItem i_ItemAboveMeInTheHierarchy)
         {
             m_SubMenuItems = new List<MenuItem>();
             m_ItemAboveMeInTheHierarchy = i_ItemAboveMeInTheHierarchy;
-            m_Text = i_Text;
+            r_Title = i_Title;
         }
 
         public MenuItem ItemAboveMeInTheHierarchy
@@ -35,16 +35,11 @@ namespace Ex04.Menus.Delegates
             }
         }
 
-        public string Text
+        public string Title
         {
             get
             {
-                return m_Text;
-            }
-
-            set
-            {
-                m_Text = value;
+                return r_Title;
             }
         }
 
@@ -56,17 +51,48 @@ namespace Ex04.Menus.Delegates
             }
         }
 
-        public void MethodWhenChosen()
+        public void MethodForWhenMenuItemIsChosen()
         {
             OnChosen();
         }
 
         protected virtual void OnChosen()
         {
-            if (m_ItemChosen != null)
+            if (m_MenuItemChooseInvoker != null)
             {
-                m_ItemChosen.Invoke();
+                m_MenuItemChooseInvoker.Invoke();
             }
+        }
+
+        public void AddSubMenuItem(MenuItem i_MenuItem)
+        {
+            m_SubMenuItems.Add(i_MenuItem);
+        }
+
+        public void RemoveSubMenuItem(MenuItem i_MenuItemToRemove)
+        {
+            if (checkIfMenuItemIsSubItem(i_MenuItemToRemove) == false)
+            {
+                throw new ArgumentException(string.Format("There is no sub menu item under menu item {0}{1}", this.Title, Environment.NewLine));
+            }
+          
+            m_SubMenuItems.Remove(i_MenuItemToRemove);
+        }
+
+        private bool checkIfMenuItemIsSubItem(MenuItem i_MenuItem)
+        {
+            bool doesExist = false;
+
+            foreach(MenuItem menuItem in m_SubMenuItems)
+            {
+                if (i_MenuItem == menuItem)
+                {
+                    doesExist = true;
+                    break;
+                }
+            }
+
+            return doesExist;
         }
     }
 }
