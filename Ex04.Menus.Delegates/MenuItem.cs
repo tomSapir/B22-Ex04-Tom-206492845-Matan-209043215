@@ -5,19 +5,21 @@ using System.Text;
 
 namespace Ex04.Menus.Delegates
 {
-    public delegate void Action<T>(T i_Param);
+    public delegate void Action<T>();
 
-    class MenuItem
+    public class MenuItem
     {
-        private List<MenuItem> m_SubMenuItems = null;
-        private MenuItem m_ItemAboveMeInTheHierarchy = null;
-        private string m_Text = string.Empty;
+        private List<MenuItem> m_SubMenuItems;
+        private MenuItem m_ItemAboveMeInTheHierarchy;
+        private string m_Text;
 
-        public event Action<MenuItem> ItemChosen;
+        public event Action<MenuItem> m_ItemChosen;
 
-        public MenuItem()
+        public MenuItem(string i_Text, MenuItem i_ItemAboveMeInTheHierarchy)
         {
-
+            m_SubMenuItems = new List<MenuItem>();
+            m_ItemAboveMeInTheHierarchy = i_ItemAboveMeInTheHierarchy;
+            m_Text = i_Text;
         }
 
         public MenuItem ItemAboveMeInTheHierarchy
@@ -54,11 +56,16 @@ namespace Ex04.Menus.Delegates
             }
         }
 
+        public void MethodWhenChosen()
+        {
+            OnChosen();
+        }
+
         protected virtual void OnChosen()
         {
-            if (ItemChosen != null)
+            if (m_ItemChosen != null)
             {
-                ItemChosen.Invoke(this);
+                m_ItemChosen.Invoke();
             }
         }
     }

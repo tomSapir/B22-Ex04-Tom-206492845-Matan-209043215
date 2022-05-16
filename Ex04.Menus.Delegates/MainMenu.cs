@@ -9,6 +9,19 @@ namespace Ex04.Menus.Delegates
     {
         private List<MenuItem> m_MenuItems;
 
+        public MainMenu()
+        {
+            m_MenuItems = new List<MenuItem>();
+        }
+
+        public List<MenuItem> MenuItems
+        {
+            get
+            {
+                return m_MenuItems;
+            }
+        }
+
         public void Show()
         {
             int choiceAsInt;
@@ -25,9 +38,9 @@ namespace Ex04.Menus.Delegates
                     {
                         break;
                     }
-                    else if (m_MenuItems[choiceAsInt - 1].SubMenuItem == null)
+                    else if (m_MenuItems[choiceAsInt - 1].SubMenuItem.Count == 0)
                     {
-                        // he is action
+                        m_MenuItems[choiceAsInt - 1].MethodWhenChosen();
                     }
                     else
                     {
@@ -43,13 +56,13 @@ namespace Ex04.Menus.Delegates
                     {
                         currMenuItem = currMenuItem.ItemAboveMeInTheHierarchy;
                     }
-                    else if (m_MenuItems[choiceAsInt - 1].SubMenuItem == null)
+                    else if (currMenuItem.SubMenuItem[choiceAsInt - 1].SubMenuItem.Count == 0)
                     {
-                        // he is action
+                        currMenuItem.SubMenuItem[choiceAsInt - 1].MethodWhenChosen();
                     }
                     else
                     {
-                        currMenuItem = m_MenuItems[choiceAsInt - 1];
+                        currMenuItem = currMenuItem.SubMenuItem[choiceAsInt - 1];
                     }
                 }
             }
@@ -79,30 +92,32 @@ namespace Ex04.Menus.Delegates
         {
             StringBuilder stringBuilder = new StringBuilder();
 
-            stringBuilder.Append("******** ").Append(i_Title).AppendLine(" ********");
-            stringBuilder.AppendLine("----------------------------------------");
-            stringBuilder.Append("Enter your request (1 to ").Append(i_MenuItems.Count).Append(" or press '0' to ");
-            if (i_IsMainMenu)
-            {
-                stringBuilder.AppendLine("Exit).");
-            }
-            else
-            {
-                stringBuilder.AppendLine("Back).");
-            }
+            stringBuilder.Append("**").Append(i_Title).AppendLine("**");
+            stringBuilder.AppendLine("-------------------------");
 
             for (int i = 1; i <= i_MenuItems.Count; i++)
             {
-                stringBuilder.Append(i.ToString()).Append(". ").AppendLine(i_MenuItems[i - 1].Text);
+                stringBuilder.Append(i.ToString()).Append(" -> ").AppendLine(i_MenuItems[i - 1].Text);
             }
 
             if (i_IsMainMenu)
             {
-                stringBuilder.Append("0. Exit");
+                stringBuilder.AppendLine("0 -> Exit");
             }
             else
             {
-                stringBuilder.Append("0. Back");
+                stringBuilder.AppendLine("0 -> Back");
+            }
+
+            stringBuilder.AppendLine("-------------------------");
+            stringBuilder.Append("Enter your request (1 to ").Append(i_MenuItems.Count).Append(" or press '0' to ");
+            if (i_IsMainMenu)
+            {
+                stringBuilder.Append("Exit).");
+            }
+            else
+            {
+                stringBuilder.Append("Back).");
             }
 
             Console.WriteLine(stringBuilder);
