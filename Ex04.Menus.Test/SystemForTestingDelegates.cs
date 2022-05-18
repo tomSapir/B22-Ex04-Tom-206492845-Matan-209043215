@@ -2,30 +2,31 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Ex04.Menus.Delegates;
 
-namespace Ex04.Menus.Delegates
+namespace Ex04.Menus
 {
-    public class Utils
+    public class SystemForTestingDelegates
     {
-        public Utils(MainMenu i_UtilsMainMenu)
+        public SystemForTestingDelegates(MainMenu o_UtilsMainMenu)
         {
-            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[0].m_MenuItemChooseInvoker += ShowTime;
-            i_UtilsMainMenu.SubMenuItem[0].SubMenuItem[1].m_MenuItemChooseInvoker += ShowDate;
-            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[0].m_MenuItemChooseInvoker += CountSpaces;
-            i_UtilsMainMenu.SubMenuItem[1].SubMenuItem[1].m_MenuItemChooseInvoker += ShowVersion;
+            o_UtilsMainMenu.SubMenuItem[0].SubMenuItem[0].m_MenuItemChooseInvoker += showTime;
+            o_UtilsMainMenu.SubMenuItem[0].SubMenuItem[1].m_MenuItemChooseInvoker += showDate;
+            o_UtilsMainMenu.SubMenuItem[1].SubMenuItem[0].m_MenuItemChooseInvoker += countSpaces;
+            o_UtilsMainMenu.SubMenuItem[1].SubMenuItem[1].m_MenuItemChooseInvoker += showVersion;
         }
 
-        public void ShowTime()
+        private void showTime()
         {
             Console.WriteLine(string.Format("The time is: {0}{1}", DateTime.Now.ToString("HH:mm:ss"), Environment.NewLine));
         }
 
-        public void ShowDate()
+        private void showDate()
         {
             Console.WriteLine(string.Format("The data is: {0}{1}", DateTime.Now.ToShortDateString(), Environment.NewLine));
         }
 
-        public void CountSpaces()
+        private void countSpaces()
         {
             string inputString = string.Empty;
             int amountOfSpaces = 0;
@@ -43,7 +44,7 @@ namespace Ex04.Menus.Delegates
             Console.WriteLine("The amount of spaces in the sentence: {0}", amountOfSpaces);
         }
 
-        public void ShowVersion()
+        private void showVersion()
         {
             Console.WriteLine("0.4.2.22: Version");
         }

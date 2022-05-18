@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Ex04.Menus.Delegates
+namespace Ex04.Menus.Interfaces
 {
     public class MainMenu : MenuItem
     {
@@ -28,7 +28,7 @@ namespace Ex04.Menus.Delegates
                 else if (currMenuItem.SubMenuItem[choiceAsInt - 1].SubMenuItem.Count == 0)
                 {
                     Console.Clear();
-                    currMenuItem.SubMenuItem[choiceAsInt - 1].MethodForWhenMenuItemIsChosen();
+                    currMenuItem.SubMenuItem[choiceAsInt - 1].NotifyAllThatImChosen();
                 }
                 else
                 {
@@ -48,7 +48,7 @@ namespace Ex04.Menus.Delegates
             }
             else
             {
-                if(choiceAsInt < 0 || choiceAsInt > i_AmountOfOptions)
+                if (choiceAsInt < 0 || choiceAsInt > i_AmountOfOptions)
                 {
                     isValid = false;
                 }

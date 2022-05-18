@@ -1,18 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Ex04.Menus.Delegates
+namespace Ex04.Menus.Interfaces
 {
-    public delegate void MenuItemChooseInvoker();
-
     public class MenuItem
     {
         protected List<MenuItem> m_SubMenuItems = new List<MenuItem>();
         protected MenuItem m_ItemAboveMeInTheHierarchy = null;
         protected string m_Title = string.Empty;
-        public event MenuItemChooseInvoker m_MenuItemChooseInvoker;
+
+        protected List<IMenuItemChosenListner> m_MenuItemChosenListners = new List<IMenuItemChosenListner>();
+
+        public void AddMenuItemChosenListner(IMenuItemChosenListner i_Listner)
+        {
+            m_MenuItemChosenListners.Add(i_Listner);
+        } 
+        
+        public void RemoveMenuItemChosenListner(IMenuItemChosenListner i_Listner)
+        {
+            m_MenuItemChosenListners.Remove(i_Listner);
+            // TODO: handle errors
+        }
 
         public MenuItem ItemAboveMeInTheHierarchy
         {
@@ -48,19 +56,6 @@ namespace Ex04.Menus.Delegates
             }
         }
 
-        public void MethodForWhenMenuItemIsChosen()
-        {
-            OnChosen();
-        }
-
-        protected virtual void OnChosen()
-        {
-            if (m_MenuItemChooseInvoker != null)
-            {
-                m_MenuItemChooseInvoker.Invoke();
-            }
-        }
-
         public void AddSubMenuItem(MenuItem i_MenuItem)
         {
             m_SubMenuItems.Add(i_MenuItem);
@@ -72,7 +67,7 @@ namespace Ex04.Menus.Delegates
             {
                 throw new ArgumentException(string.Format("There is no sub menu item under menu item {0}{1}", this.Title, Environment.NewLine));
             }
-          
+
             m_SubMenuItems.Remove(i_MenuItemToRemove);
         }
 
@@ -80,7 +75,7 @@ namespace Ex04.Menus.Delegates
         {
             bool doesExist = false;
 
-            foreach(MenuItem menuItem in m_SubMenuItems)
+            foreach (MenuItem menuItem in m_SubMenuItems)
             {
                 if (i_MenuItem == menuItem)
                 {
@@ -90,6 +85,14 @@ namespace Ex04.Menus.Delegates
             }
 
             return doesExist;
+        }
+
+        public void NotifyAllThatImChosen()
+        {
+            foreach (IMenuItemChosenListner listner in m_MenuItemChosenListners)
+            {
+                listner.ReportMenuItemChosen(this);
+            }
         }
     }
 }

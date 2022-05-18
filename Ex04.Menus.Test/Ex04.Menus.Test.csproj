@@ -33,12 +33,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
-    <Compile Include="Utils.cs" />
+    <Compile Include="SystemForTestingDelegates.cs" />
+    <Compile Include="SystemForTestingInterfaces.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ex04.Menus.Delegates\Ex04.Menus.Delegates.csproj">
       <Project>{1DE3F3FE-8924-44BB-A791-54AD679769F4}</Project>
       <Name>Ex04.Menus.Delegates</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ex04.Menus.Interfaces\Ex04.Menus.Interfaces.csproj">
+      <Project>{1310c9e1-b78a-4826-b0b3-a48b531bcacd}</Project>
+      <Name>Ex04.Menus.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
