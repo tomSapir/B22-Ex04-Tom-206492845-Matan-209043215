@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Ex04.Menus.Delegates
 {
-    public delegate void MenuItemChooseInvoker();
+    public delegate void MenuItemChooseDelegate();
 
     public class MenuItem
     {
         protected List<MenuItem> m_SubMenuItems = new List<MenuItem>();
         protected MenuItem m_ItemAboveMeInTheHierarchy = null;
         protected string m_Title = string.Empty;
-        public event MenuItemChooseInvoker m_MenuItemChooseInvoker;
+        public event MenuItemChooseDelegate m_MenuItemChosen;
 
         public MenuItem ItemAboveMeInTheHierarchy
         {
@@ -55,9 +55,9 @@ namespace Ex04.Menus.Delegates
 
         protected virtual void OnChosen()
         {
-            if (m_MenuItemChooseInvoker != null)
+            if (m_MenuItemChosen != null)
             {
-                m_MenuItemChooseInvoker.Invoke();
+                m_MenuItemChosen.Invoke();
             }
         }
 
@@ -90,6 +90,45 @@ namespace Ex04.Menus.Delegates
             }
 
             return doesExist;
+        }
+
+        public bool AmIALeaf()
+        {
+            return m_SubMenuItems.Count == 0;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.Append("**").Append(m_Title).AppendLine("**");
+            stringBuilder.AppendLine("-------------------------");
+            for (int i = 1; i <= m_SubMenuItems.Count; i++)
+            {
+                stringBuilder.Append(i.ToString()).Append(" -> ").AppendLine(m_SubMenuItems[i - 1].Title);
+            }
+
+            if (this is MainMenu)
+            {
+                stringBuilder.AppendLine("0 -> Exit");
+            }
+            else
+            {
+                stringBuilder.AppendLine("0 -> Back");
+            }
+
+            stringBuilder.AppendLine("-------------------------");
+            stringBuilder.Append("Enter your request (1 to ").Append(m_SubMenuItems.Count).Append(" or press '0' to ");
+            if (this is MainMenu)
+            {
+                stringBuilder.Append("Exit).");
+            }
+            else
+            {
+                stringBuilder.Append("Back).");
+            }
+
+            return stringBuilder.ToString();
         }
     }
 }
